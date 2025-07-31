@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>디버그 페이지</title>
+    <style>
+        body {
+            font-family: monospace;
+            padding: 20px;
+            background: #f0f0f0;
+        }
+        .debug-section {
+            background: white;
+            padding: 15px;
+            margin: 10px 0;
+            border-radius: 5px;
+            border: 1px solid #ddd;
+        }
+        .debug-title {
+            font-weight: bold;
+            color: #333;
+            margin-bottom: 10px;
+        }
+        .error {
+            color: red;
+        }
+        .success {
+            color: green;
+        }
+        .warning {
+            color: orange;
+        }
+        pre {
+            background: #f5f5f5;
+            padding: 10px;
+            border-radius: 3px;
+            overflow-x: auto;
+        }
+    </style>
+</head>
+<body>
+    <h1>HTML 미리보기 도구 - 디버그 정보</h1>
+    
+    <div class="debug-section">
+        <div class="debug-title">DOM 요소 확인</div>
+        <div id="domCheck"></div>
+    </div>
+    
+    <div class="debug-section">
+        <div class="debug-title">이벤트 리스너 테스트</div>
+        <button id="testBtn">테스트 버튼</button>
+        <div id="eventResult"></div>
+    </div>
+    
+    <div class="debug-section">
+        <div class="debug-title">Monaco Editor 로드 상태</div>
+        <div id="monacoStatus"></div>
+    </div>
+    
+    <div class="debug-section">
+        <div class="debug-title">Bootstrap 로드 상태</div>
+        <div id="bootstrapStatus"></div>
+    </div>
+    
+    <script>
+        function checkDOMElements() {
+            const elements = [
+                'themeToggle', 'runBtn', 'saveBtn', 'downloadBtn', 'shareBtn', 'templateBtn',
+                'formatBtn', 'clearBtn', 'zoomInBtn', 'zoomOutBtn', 'newWindowBtn',
+                'mobileView', 'tabletView', 'desktopView', 'fullscreenBtn',
+                'htmlEditor', 'cssEditor', 'jsEditor', 'previewFrame', 'autoSaveStatus'
+            ];
+            
+            const domCheck = document.getElementById('domCheck');
+            let html = '<pre>';
+            
+            elements.forEach(id => {
+                const element = document.getElementById(id);
+                if (element) {
+                    html += `✓ ${id}: 존재\n`;
+                } else {
+                    html += `✗ ${id}: 없음\n`;
+                }
+            });
+            
+            // 탭 버튼 확인
+            const tabBtns = document.querySelectorAll('.tab-btn');
+            html += `\n탭 버튼 개수: ${tabBtns.length}\n`;
+            tabBtns.forEach((btn, index) => {
+                const lang = btn.dataset?.lang;
+                html += `  탭 ${index}: data-lang="${lang}"\n`;
+            });
+            
+            html += '</pre>';
+            domCheck.innerHTML = html;
+        }
+        
+        function testEventListeners() {
+            const testBtn = document.getElementById('testBtn');
+            const eventResult = document.getElementById('eventResult');
+            
+            testBtn.addEventListener('click', () => {
+                eventResult.innerHTML = '<span class="success">✓ 이벤트 리스너 정상 작동</span>';
+            });
+        }
+        
+        function checkMonaco() {
+            const monacoStatus = document.getElementById('monacoStatus');
+            
+            if (typeof require !== 'undefined') {
+                monacoStatus.innerHTML = '<span class="success">✓ require 함수 사용 가능</span>';
+                
+                // Monaco 로드 테스트
+                require.config({ paths: { vs: 'https://cdnjs.cloudflare.com/ajax/libs/monaco-editor/0.44.0/min/vs' } });
+                require(['vs/editor/editor.main'], () => {
+                    monacoStatus.innerHTML += '<br><span class="success">✓ Monaco Editor 로드 성공</span>';
+                    
+                    if (typeof monaco !== 'undefined') {
+                        monacoStatus.innerHTML += '<br><span class="success">✓ monaco 객체 사용 가능</span>';
+                    } else {
+                        monacoStatus.innerHTML += '<br><span class="error">✗ monaco 객체 없음</span>';
+                    }
+                }, (error) => {
+                    monacoStatus.innerHTML += '<br><span class="error">✗ Monaco Editor 로드 실패: ' + error + '</span>';
+                });
+            } else {
+                monacoStatus.innerHTML = '<span class="error">✗ require 함수 없음</span>';
+            }
+        }
+        
+        function checkBootstrap() {
+            const bootstrapStatus = document.getElementById('bootstrapStatus');
+            
+            if (typeof bootstrap !== 'undefined') {
+                bootstrapStatus.innerHTML = '<span class="success">✓ Bootstrap JavaScript 로드됨</span>';
+                
+                if (bootstrap.Modal) {
+                    bootstrapStatus.innerHTML += '<br><span class="success">✓ Bootstrap Modal 사용 가능</span>';
+                } else {
+                    bootstrapStatus.innerHTML += '<br><span class="warning">⚠ Bootstrap Modal 없음</span>';
+                }
+            } else {
+                bootstrapStatus.innerHTML = '<span class="warning">⚠ Bootstrap JavaScript 없음 (정상 - 대체 구현 사용)</span>';
+            }
+        }
+        
+        // 페이지 로드 시 모든 검사 실행
+        document.addEventListener('DOMContentLoaded', () => {
+            checkDOMElements();
+            testEventListeners();
+            checkMonaco();
+            checkBootstrap();
+        });
+    </script>
+</body>
+</html>

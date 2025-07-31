@@ -1,0 +1,393 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HTML Editor Online - Free Live Code Editor with Real-Time Preview</title>
+    <meta name="description"
+        content="Free online HTML editor with live preview. Write HTML, CSS, and JavaScript code in your browser and see instant results. Perfect web development tool for beginners and professionals.">
+    <meta name="keywords"
+        content="html editor, online code editor, html preview, live coding, web development tool, javascript editor, css editor, real-time preview, browser code editor, html playground">
+
+    <link rel="canonical" href="https://yourdomain.com/">
+
+    <meta name="language" content="English">
+    <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1">
+
+    <link rel="icon" type="image/svg+xml"
+        href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' rx='20' fill='%23667eea'/><text x='50' y='70' font-size='60' text-anchor='middle' fill='white' font-family='Arial'>&lt;/&gt;</text></svg>">
+    <link rel="apple-touch-icon" href="/apple-touch-icon.png">
+
+    <meta property="og:title" content="HTML Editor Online - Free Live Code Editor">
+    <meta property="og:description"
+        content="Write and test HTML, CSS, and JavaScript code online with instant preview. Free web development tool with syntax highlighting and code formatting.">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://yourdomain.com/">
+    <meta property="og:image" content="https://yourdomain.com/og-image.png">
+    <meta property="og:image:width" content="1200">
+    <meta property="og:image:height" content="630">
+    <meta property="og:site_name" content="HTML Editor Online">
+    <meta property="og:locale" content="en_US">
+
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="HTML Editor Online - Free Live Code Editor">
+    <meta name="twitter:description"
+        content="Write and test HTML, CSS, and JavaScript code online with instant preview. Free web development tool.">
+    <meta name="twitter:image" content="https://yourdomain.com/twitter-card.png">
+    <meta name="twitter:image:alt" content="HTML Editor Online screenshot showing code editor and live preview">
+    <meta name="twitter:site" content="@yourtwitterhandle">
+    <meta name="twitter:creator" content="@yourtwitterhandle">
+
+    <meta name="theme-color" content="#667eea">
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <link href="css/style.css" rel="stylesheet">
+    <link rel="manifest" href="manifest.json">
+
+    <script>
+        // PWA Install Prompt
+        let deferredPrompt;
+        window.addEventListener('beforeinstallprompt', (e) => {
+            e.preventDefault();
+            deferredPrompt = e;
+            const installBtn = document.getElementById('installPWA');
+            if (installBtn) {
+                installBtn.style.display = 'block';
+            }
+            window.deferredPrompt = deferredPrompt;
+        });
+    </script>
+</head>
+
+<body>
+    <header class="navbar navbar-dark bg-dark shadow-sm">
+        <div class="container-fluid">
+            <div class="navbar-brand d-flex align-items-center">
+                <i class="fas fa-code me-2"></i>
+                <span class="fw-bold">HTML Editor Online</span>
+                <h1 class="visually-hidden">Free Online HTML Editor with Live Preview</h1>
+            </div>
+            <div class="d-flex align-items-center">
+                <button class="btn btn-outline-light btn-sm me-2" id="themeToggle" title="Toggle Theme">
+                    <i class="fas fa-moon"></i>
+                </button>
+                <button class="btn btn-success btn-sm me-2" id="runBtn" title="Run Code (Ctrl+Enter)">
+                    <i class="fas fa-play me-1"></i> Run
+                </button>
+
+                <button class="btn btn-primary btn-sm me-2" id="saveProjectBtn"
+                    title="Save current code as a new project">
+                    <i class="fas fa-save me-1"></i> Save Project
+                </button>
+                <div class="btn-group me-2" role="group">
+                    <button class="btn btn-outline-info btn-sm" id="downloadHtmlBtn" title="Download as HTML file">
+                        <i class="fas fa-download"></i>
+                    </button>
+                    <button class="btn btn-outline-warning btn-sm" id="screenshotBtn"
+                        title="Take Screenshot of Preview">
+                        <i class="fas fa-camera"></i>
+                    </button>
+                    <button class="btn btn-outline-danger btn-sm" id="exportPdfBtn" title="Export Preview as PDF">
+                        <i class="fas fa-file-pdf"></i>
+                    </button>
+                </div>
+
+                <div class="d-flex align-items-center me-2 dropdown">
+                    <button class="btn btn-sm btn-outline-light auto-save-toggle" id="autoSaveStatus"
+                        title="Click to toggle auto-save">
+                        <i class="fas fa-sync-alt"></i>
+                        <span class="save-text">Auto Save</span>
+                    </button>
+                    <button class="btn btn-sm btn-outline-light dropdown-toggle ms-1" type="button"
+                        data-bs-toggle="dropdown" aria-expanded="false" title="Recent Saves">
+                        <i class="fas fa-history"></i>
+                    </button>
+                    <ul class="dropdown-menu dropdown-menu-end" id="recentSavesDropdown">
+                        <li class="dropdown-header">Recent Auto-Saves</li>
+                        <div id="recentSavesList">
+                            <li><span class="dropdown-item-text text-muted">No recent saves.</span></li>
+                        </div>
+                    </ul>
+                </div>
+
+                <button class="btn btn-sm btn-outline-success me-2" id="installPWA" style="display: none;"
+                    title="Install as App">
+                    <i class="fas fa-cloud-download-alt"></i> Install
+                </button>
+                <div class="dropdown">
+                    <button class="btn btn-outline-light btn-sm dropdown-toggle" type="button" id="dropdownMenuBtn"
+                        data-bs-toggle="dropdown" aria-expanded="false" title="More options">
+                        <i class="fas fa-bars"></i>
+                    </button>
+                    <ul class="dropdown-menu dropdown-menu-end">
+                        <li><a class="dropdown-item" href="#" id="shareBtn"><i class="fas fa-share-alt me-2"></i>Share
+                                Code</a></li>
+                        <li><a class="dropdown-item" href="#" id="resetBtn"><i class="fas fa-undo me-2"></i>Reset All
+                                Editors</a></li>
+                        <li>
+                            <hr class="dropdown-divider">
+                        </li>
+                        <li class="dropdown-header">Projects & Templates</li>
+                        <li><a class="dropdown-item" href="#" data-bs-toggle="modal" data-bs-target="#projectsModal"><i
+                                    class="fas fa-folder-open me-2"></i>My Projects</a></li>
+                        <li><a class="dropdown-item" href="#" data-bs-toggle="modal" data-bs-target="#templatesModal"><i
+                                    class="fas fa-th-large me-2"></i>Template Gallery</a></li>
+                        <li>
+                            <hr class="dropdown-divider">
+                        </li>
+                        <li class="dropdown-header">Analytics</li>
+                        <li><a class="dropdown-item" href="#" data-bs-toggle="modal" data-bs-target="#analyticsModal"><i
+                                    class="fas fa-chart-bar me-2"></i>Usage Stats</a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <main class="container-fluid p-0">
+        <div class="row g-0 main-content">
+            <div class="col-lg-6 col-md-12 editor-panel">
+                <div class="panel-header d-flex justify-content-between align-items-center">
+                    <div class="tabs">
+                        <button class="tab-btn active" data-lang="html">
+                            <i class="fab fa-html5 text-danger"></i> HTML
+                        </button>
+                        <button class="tab-btn" data-lang="css">
+                            <i class="fab fa-css3-alt text-primary"></i> CSS
+                        </button>
+                        <button class="tab-btn" data-lang="js">
+                            <i class="fab fa-js text-warning"></i> JS
+                        </button>
+                        <div class="btn-divider"></div>
+                        <button class="btn btn-sm btn-outline-secondary copy-btn" id="copyBtn"
+                            title="Copy current tab code">
+                            <i class="fas fa-copy"></i>
+                        </button>
+                    </div>
+                    <div class="editor-tools">
+                        <select class="form-select form-select-sm template-selector" id="templateSelector"
+                            title="Load a template">
+                        </select>
+                        <button class="btn btn-sm btn-outline-secondary" id="formatBtn" title="Format Code">
+                            <i class="fas fa-magic"></i>
+                        </button>
+                        <button class="btn btn-sm btn-outline-secondary" id="clearBtn" title="Clear current editor">
+                            <i class="fas fa-trash-alt"></i>
+                        </button>
+                        <button class="btn btn-sm btn-outline-danger" id="resetBtnEditor"
+                            title="Reset all editors to default">
+                            <i class="fas fa-undo"></i>
+                        </button>
+                    </div>
+                </div>
+
+                <div class="editor-container">
+                    <div id="htmlEditor" class="monaco-editor"></div>
+                    <div id="cssEditor" class="monaco-editor" style="display: none;"></div>
+                    <div id="jsEditor" class="monaco-editor" style="display: none;"></div>
+                </div>
+            </div>
+
+            <div class="col-lg-6 col-md-12 preview-panel">
+                <div class="panel-header d-flex justify-content-between align-items-center">
+                    <div class="d-flex align-items-center">
+                        <i class="fas fa-eye me-2"></i>
+                        <span>Live Preview</span>
+                    </div>
+                    <div class="preview-tools">
+                        <div class="zoom-slider-container">
+                            <i class="fas fa-search-minus text-secondary"></i>
+                            <div class="zoom-slider" id="zoomSlider">
+                                <div class="zoom-track"></div>
+                                <div class="zoom-thumb" id="zoomThumb"></div>
+                            </div>
+                            <i class="fas fa-search-plus text-secondary"></i>
+                        </div>
+                        <span class="zoom-value" id="zoomValue">100%</span>
+
+                        <div class="btn-divider"></div>
+                        <div class="dropdown">
+                            <button class="btn btn-sm btn-outline-secondary dropdown-toggle" type="button"
+                                id="viewportDropdown" data-bs-toggle="dropdown" aria-expanded="false">
+                                <i class="fas fa-desktop"></i>
+                                <span class="d-none d-md-inline ms-1">Desktop</span>
+                            </button>
+                            <ul class="dropdown-menu" id="viewportMenu">
+                                <li><a class="dropdown-item" href="#" data-viewport="mobile"><i
+                                            class="fas fa-mobile-alt me-2"></i>Mobile (375x667)</a></li>
+                                <li><a class="dropdown-item" href="#" data-viewport="iphone-se"><i
+                                            class="fas fa-mobile me-2"></i>iPhone SE (375x667)</a></li>
+                                <li><a class="dropdown-item" href="#" data-viewport="tablet"><i
+                                            class="fas fa-tablet-alt me-2"></i>Tablet (768x1024)</a></li>
+                                <li><a class="dropdown-item" href="#" data-viewport="ipad-pro"><i
+                                            class="fas fa-tablet me-2"></i>iPad Pro (1024x1366)</a></li>
+                                <li><a class="dropdown-item" href="#" data-viewport="macbook"><i
+                                            class="fas fa-laptop me-2"></i>MacBook (1440x900)</a></li>
+                                <li><a class="dropdown-item active" href="#" data-viewport="desktop"><i
+                                            class="fas fa-desktop me-2"></i>Desktop (Full)</a></li>
+                                <li><a class="dropdown-item" href="#" data-viewport="galaxy-fold"><i
+                                            class="fas fa-mobile-alt me-2"></i>Galaxy Fold (280x653)</a></li>
+                            </ul>
+                        </div>
+                        <div class="btn-divider"></div>
+                        <button class="btn btn-sm btn-outline-secondary" id="newWindowBtn"
+                            title="Open preview in a new window">
+                            <i class="fas fa-external-link-alt"></i>
+                        </button>
+                        <button class="btn btn-sm btn-outline-secondary" id="fullscreenBtn"
+                            title="Toggle fullscreen preview (F11)">
+                            <i class="fas fa-expand"></i>
+                        </button>
+                    </div>
+                </div>
+
+                <div class="preview-container" id="previewContainer">
+                    <div id="errorPanel" class="error-panel" style="display: none;">
+                        <div class="error-header">
+                            <i class="fas fa-exclamation-triangle text-warning me-2"></i>
+                            <span>Errors Detected</span>
+                            <button type="button" class="btn-close btn-close-white btn-sm ms-auto"
+                                id="hideErrorPanel"></button>
+                        </div>
+                        <div class="error-list" id="errorList"></div>
+                    </div>
+                    <button id="exitFullscreenBtn" class="btn btn-danger btn-sm" title="Exit Fullscreen (ESC)">
+                        <i class="fas fa-compress me-1"></i> Exit Fullscreen
+                    </button>
+                    <iframe id="previewFrame" class="preview-frame"
+                        sandbox="allow-scripts allow-forms allow-popups allow-same-origin allow-modals"></iframe>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <footer class="app-footer">
+        <div class="container-fluid d-flex justify-content-between align-items-center h-100">
+            <div>
+                <span class="text-muted">© 2025 HTML Editor Online.</span>
+                <a href="mailto:quatermain12@gmail.com" class="text-muted ms-2">quatermain12@gmail.com</a>
+            </div>
+            <button class="btn btn-outline-secondary" id="feedbackBtn" data-bs-toggle="modal"
+                data-bs-target="#feedbackModal">
+                <i class="fas fa-comment-alt me-1"></i> Send Feedback
+            </button>
+        </div>
+    </footer>
+
+    <div id="notification-container"></div>
+
+    <div class="modal fade" id="projectsModal" tabindex="-1">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">My Projects</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="d-flex justify-content-between align-items-center mb-3">
+                        <h6>Saved Projects</h6>
+                        <button class="btn btn-primary btn-sm" id="newProjectBtn"
+                            title="Clear editors to start a new project">
+                            <i class="fas fa-plus me-1"></i>New Blank Project
+                        </button>
+                    </div>
+                    <div id="projectsList" class="projects-list"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="modal fade" id="templatesModal" tabindex="-1">
+        <div class="modal-dialog modal-xl">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Template Gallery</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="row mb-3">
+                        <div class="col-md-6">
+                            <div class="input-group">
+                                <span class="input-group-text"><i class="fas fa-search"></i></span>
+                                <input type="text" id="templateSearchInput" class="form-control"
+                                    placeholder="Search templates...">
+                            </div>
+                        </div>
+                        <div class="col-md-6 d-flex align-items-center justify-content-end">
+                            <div class="template-categories">
+                                <button class="btn btn-outline-primary btn-sm active" data-category="all">All</button>
+                                <button class="btn btn-outline-primary btn-sm" data-category="landing">Landing</button>
+                                <button class="btn btn-outline-primary btn-sm"
+                                    data-category="portfolio">Portfolio</button>
+                                <button class="btn btn-outline-primary btn-sm"
+                                    data-category="business">Business</button>
+                                <button class="btn btn-outline-primary btn-sm"
+                                    data-category="components">Components</button>
+                            </div>
+                        </div>
+                    </div>
+                    <div id="templateGallery" class="row row-cols-1 row-cols-md-2 row-cols-lg-4 g-4"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="modal fade" id="analyticsModal" tabindex="-1">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Usage Analytics</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <div id="analyticsContent"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="modal fade" id="feedbackModal" tabindex="-1">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Send Feedback</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <form id="feedbackForm">
+                        <div class="mb-3">
+                            <label for="feedbackType" class="form-label">Feedback Type</label>
+                            <select class="form-select" id="feedbackType" required>
+                                <option value="Bug Report">Bug Report</option>
+                                <option value="Improvement Suggestion">Improvement Suggestion</option>
+                                <option value="General Feedback">General Feedback</option>
+                            </select>
+                        </div>
+                        <div class="mb-3">
+                            <label for="feedbackMessage" class="form-label">Message</label>
+                            <textarea class="form-control" id="feedbackMessage" rows="5"
+                                placeholder="Please provide as much detail as possible." required></textarea>
+                        </div>
+                        <div class="mb-3">
+                            <label for="feedbackEmail" class="form-label">Your Email (Optional)</label>
+                            <input type="email" class="form-control" id="feedbackEmail"
+                                placeholder="So we can get back to you.">
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                    <button type="button" class="btn btn-primary" id="submitFeedbackBtn">Submit</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/monaco-editor/0.44.0/min/vs/loader.min.js"></script>
+    <script src="js/templates.js"></script>
+    <script src="js/app.js"></script>
+</body>
+
+</html>

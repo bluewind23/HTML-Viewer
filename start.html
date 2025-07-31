@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HTML 미리보기 도구 - 실행 방법</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 40px 20px;
+            line-height: 1.6;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+        }
+        .container {
+            background: white;
+            padding: 40px;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+        }
+        h1 {
+            color: #667eea;
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        .method {
+            margin: 30px 0;
+            padding: 20px;
+            border: 2px solid #e9ecef;
+            border-radius: 10px;
+            background: #f8f9fa;
+        }
+        .method h3 {
+            color: #333;
+            margin-bottom: 15px;
+        }
+        .code {
+            background: #2d3748;
+            color: #e2e8f0;
+            padding: 15px;
+            border-radius: 8px;
+            font-family: 'Courier New', monospace;
+            margin: 10px 0;
+            overflow-x: auto;
+        }
+        .btn {
+            display: inline-block;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 12px 30px;
+            text-decoration: none;
+            border-radius: 25px;
+            font-weight: 500;
+            margin: 10px 10px 10px 0;
+            transition: transform 0.3s ease;
+        }
+        .btn:hover {
+            transform: translateY(-2px);
+            color: white;
+        }
+        .warning {
+            background: #fff3cd;
+            border: 1px solid #ffeaa7;
+            color: #856404;
+            padding: 15px;
+            border-radius: 8px;
+            margin: 20px 0;
+        }
+        .success {
+            background: #d4edda;
+            border: 1px solid #c3e6cb;
+            color: #155724;
+            padding: 15px;
+            border-radius: 8px;
+            margin: 20px 0;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🚀 HTML 미리보기 도구 실행 방법</h1>
+        
+        <div class="success">
+            <strong>✅ 전체화면 버그 수정 완료!</strong><br>
+            이제 전체화면에서도 우상단에 "전체화면 종료" 버튼이 나타나며, ESC 키로도 종료할 수 있습니다.
+        </div>
+
+        <div class="method">
+            <h3>🌐 방법 1: 직접 브라우저에서 열기 (가장 간단!)</h3>
+            <p>파이썬이나 서버 없이도 바로 실행 가능합니다:</p>
+            <div class="code">
+                Finder에서 index.html 파일을 찾아서 더블클릭
+                또는
+                브라우저에서 Ctrl+O 눌러서 index.html 선택
+            </div>
+            <a href="index.html" class="btn">🔗 바로 실행하기</a>
+        </div>
+
+        <div class="method">
+            <h3>🐍 방법 2: Python 로컬 서버 (권장)</h3>
+            <p>파일 로딩 문제 방지를 위해 권장하는 방법입니다:</p>
+            <div class="code">
+                cd /Users/wonjin/Documents/GitHub/HTML-View<br>
+                python3 -m http.server 8000
+            </div>
+            <p>그 후 브라우저에서 <strong>http://localhost:8000</strong> 접속</p>
+        </div>
+
+        <div class="method">
+            <h3>⚡ 방법 3: VS Code Live Server</h3>
+            <p>VS Code 사용자라면 가장 편리한 방법:</p>
+            <div class="code">
+                1. VS Code에서 프로젝트 폴더 열기<br>
+                2. Live Server 확장 프로그램 설치<br>
+                3. index.html 우클릭 → "Open with Live Server"
+            </div>
+        </div>
+
+        <div class="method">
+            <h3>🌍 방법 4: Node.js http-server</h3>
+            <p>Node.js가 설치되어 있다면:</p>
+            <div class="code">
+                npx http-server<br>
+                # 또는<br>
+                npm install -g http-server<br>
+                http-server
+            </div>
+        </div>
+
+        <div class="warning">
+            <strong>⚠️ 주의사항:</strong><br>
+            Monaco Editor와 같은 외부 라이브러리가 CORS 정책으로 인해 file:// 프로토콜에서 제대로 로드되지 않을 수 있습니다. 
+            이 경우 로컬 서버(방법 2-4)를 사용하세요.
+        </div>
+
+        <h2>🎯 주요 기능</h2>
+        <ul>
+            <li>✅ 실시간 HTML/CSS/JS 미리보기</li>
+            <li>✅ VS Code 수준의 코드 에디터 (Monaco Editor)</li>
+            <li>✅ 반응형 디자인 테스트 (모바일/태블릿/데스크톱)</li>
+            <li>✅ 4가지 전문 템플릿 제공</li>
+            <li>✅ 코드 저장/불러오기/공유</li>
+            <li>✅ 다크/라이트 테마</li>
+            <li>✅ <strong>전체화면 종료 버튼 (새로 추가!)</strong></li>
+        </ul>
+
+        <h2>🎮 사용법</h2>
+        <ul>
+            <li><strong>Ctrl + Enter:</strong> 미리보기 새로고침</li>
+            <li><strong>Ctrl + S:</strong> 코드 저장</li>
+            <li><strong>ESC:</strong> 전체화면 종료</li>
+            <li><strong>F11:</strong> 전체화면 토글</li>
+        </ul>
+
+        <div style="text-align: center; margin-top: 40px;">
+            <a href="index.html" class="btn">🚀 HTML 미리보기 도구 시작하기</a>
+        </div>
+    </div>
+</body>
+</html>
