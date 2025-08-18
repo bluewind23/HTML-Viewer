@@ -17,3 +17,7 @@ Disallow: *.log
 Allow: /css/style.css
 Allow: /js/app.js
 Allow: /js/templates.js
+
+# Exclude verification files from Google AdSense
+User-agent: Mediapartners-Google
+Disallow: /naver*.html
